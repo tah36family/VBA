@@ -1,0 +1,68 @@
+
+Sub Stock()
+
+
+Dim Ticker As String
+Dim Opendate As Long
+Dim Closedate As Long
+Dim openvalue As Double
+Dim closedvalue As Double
+
+ 
+Dim yearlychange As Double
+Dim percentchange  As Double
+Dim totalvolume As Double
+Dim summarytable_Row As Double
+
+
+
+lastrow = Cells(Rows.Count, "A").End(xlUp).Row
+summarytable_Row = 2
+Opendate = Cells(2, 2).Value
+Closedate = Cells(262, 2).Value
+totalvolume = 0
+
+For i = 2 To lastrow
+
+Currentticker = Cells(i, 1).Value
+totalvolume = totalvolume + Cells(i, 7).Value
+
+If Cells(i + 1, 1).Value <> Currentticker Then
+ 
+ Range("I" & summarytable_Row).Value = Currentticker
+ Range("j" & summarytable_Row).Value = yearlchange
+ Range("k" & summarytable_Row).Value = percentchange
+ Range("L" & summarytable_Row).Value = totalvolume
+ 
+ summarytable_Row = summarytable_Row + 1
+ 
+ totalvolume = 0
+ End If
+ 
+ If Cells(i, 2).Value = Opendate Then
+ openvalue = Cells(i, 3).Value
+ End If
+ 
+ If Cells(i + 1, 2).Value = Closedate Then
+ closedvalue = Cells(i + 1, 6).Value
+ End If
+ 
+ yearlychange = closedvalue - openvalue
+
+
+percentchange = yearlychange / openvalue
+
+If yearlychange > 0 Then
+Range("j" & summarytable_Row).Interior.ColorIndex = 4
+End If
+If yearlychange < 0 Then
+Range("j" & summarytable_Row).Interior.ColorIndex = 3
+
+End If
+
+Next i
+ 
+ 
+
+
+End Sub
